@@ -1,0 +1,21 @@
+sudo: required
+language: generic
+services: docker
+
+script:
+  - cd ${TRAVIS_BUILD_DIR}
+  - make
+  - |
+    if [[ "${TRAVIS_PULL_REQUEST}" == "false" ]] ; then
+        docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
+        make push
+    fi
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+env:
+  global:
+  - secure: Ac7N/ZWryiAjbCRsKPfiJPlXsON5IbwLdJIvG1gI3yi+0QD/CvB5ZWDI/xPJQbAxfpdbKolOFo4HvQSc/C3uHnqRNAxMmLQyzzrTfkb2AuB+uClEeki5pUKZWZkqlMXvlFdJZMzcf0HACu3G2uNKOdX8lasDOEOOODmiODezdEq2gzq6Drdf9uzaX6MupE6/ASlcqxnQDsYfv4quRlCPuXwFIgBeXPls7dbex+b+eHrVbqTe721kEQBGTRvJcFmet6l+MYAp5T5mBgmhlZSbzZcM41jTGqh608Nv0FFiLG+s6n/4P6+sTnMRmNVxRCsLKTiANB5kKo0Lrwug4UOAJoCuSxFMh/gFd5cHMgKCcEZSecT1eoheYvfK1jnvELbdN18w+jzPARlgu3ypYNIm6oKqefgKmHzrX1rMo9Reil/jV3vANoiH+em07QIaRqbq0VOOR+0QDbbgVQE9yuNnHU/7omAg7wRi03AdVTFnsxiXNkXEn5j1xzI8GIbnCk4cGNAGufG9uQryc57DJzJwqB1GKJlUM40KEcqUoRq/wo6YBwoYGZs+w7S7i3l9Hhhn/uonln2ikLPaXQhxHjYk8a8Ubsyut7PeVLMD3ONGGncvbZu5/xfHbEP94YcLIOlNOKSlNrDr+z0Vao6h28+pH8bjZx7ImTq3Sd1nYzd557U=
+  - secure: 4H8xPZtDGlTH28A9gBKboXiAMAE0/QtXRRmnIbVXIRjSmskAQSzJEWxaj8Il/MQBLtqJDgB5HbJM2Y/K21eezvLoCYHwuwvXOwx11hxRrD6657yxsNXpmQ9ph4Ic6I2k1EJwoVE5rBe+PGEwEQ8J+NPfriIoFshaBcIMa5867QnkyiQHpf7gncJ8j9WIzMqXGbQJgQLTDFQnuZALNTpJHuQCN6lYDrmxUy1/9WzKGn0uhpGwxc4dUoMZgef9+JJ3huyKC8G1/WMQEhYFsRu9q7bSl/S5wjhk6cEXmVJl4ycxdnU/GPy9+OuLRfv7WIBi5kPkLWJ/nU8DKC2UTqZ3QaMmyRn2TgZghTBLihx3sjLyGygSk4p0RPVfrXjdogVx4UAMylElKjw3oSBQn3QxVhWTH3Q78/6VT7oqk0sS8gpK5NIKs/jOdOs/9DuO0Gvh0Q7arGaC5I08CXZU3ziOh+LDVhf722J9oOkrsgvZYQjUUxND4HFqyy7KZYRaZxhqmtTYtXvexYkHXJunnycgTZegqio8764TDVmUa/GcGKHpc48Y3patLSA41gDOixNq3Gd/JZm4G8Raw+qpOWuo/ctfwgAe6WmlfWg7wb3qhulkRMjPLgvwJ/0284eZ9ZGneI7zfos5yN888E7z3bT+e31CwmboT+by1PInxTtDLGo=
