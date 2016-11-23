@@ -4,7 +4,7 @@ services: docker
 
 script:
   - cd ${TRAVIS_BUILD_DIR}
-  - make
+  - travis_wait 50 make
   - |
     if [[ "${TRAVIS_PULL_REQUEST}" == "false" ]] ; then
         docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
