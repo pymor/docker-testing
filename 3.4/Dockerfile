@@ -1,13 +1,12 @@
 FROM pymor/python:3.4
 
 ENV FENICS_PPA "ppa:pymor/fenics-py3"
-ENV FENICS_PACKAGES="python3-zmq python3-dolfin python3-pyside python3-mpi4py"
+ENV FENICS_PACKAGES "python3-zmq python3-dolfin python3-pyside python3-mpi4py"
 
 ENV DEBIAN_FRONTEND noninteractive
-
 RUN add-apt-repository -y ${FENICS_PPA}
-RUN aptitude update
-RUN aptitude install -y --without-recommends -q libslepc3.4.2-dev libhdf5-openmpi-dev  ${FENICS_PACKAGES}
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends -q libslepc3.4.2-dev libhdf5-openmpi-dev  ${FENICS_PACKAGES}
 ENV DEBIAN_FRONTEND teletype
 
 RUN python -c 'import  dolfin' || echo "import dolfin failed"

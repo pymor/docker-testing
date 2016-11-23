@@ -1,11 +1,5 @@
 FROM pymor/python:3.6
 
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN aptitude update
-
-ENV DEBIAN_FRONTEND teletype
-
 RUN pip install -U pip
 RUN pip install -U numpy
 RUN git clone https://github.com/pymor/pymor
