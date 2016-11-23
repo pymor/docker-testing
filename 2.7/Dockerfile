@@ -6,7 +6,7 @@ ENV FENICS_PACKAGES "python-zmq python-dolfin python-pyside python-mpi4py"
 ENV DEBIAN_FRONTEND noninteractive
 RUN add-apt-repository -y ${FENICS_PPA}
 RUN apt-get update
-RUN apt-get install -y --no-install-recommends -q libslepc3.4.2-dev libhdf5-openmpi-dev  ${FENICS_PACKAGES}
+RUN apt-get install -q -y --no-install-recommends libhdf5-openmpi-dev  ${FENICS_PACKAGES}
 ENV DEBIAN_FRONTEND teletype
 
 RUN python -c 'import  dolfin' || echo "import dolfin failed"
