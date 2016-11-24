@@ -1,4 +1,4 @@
-PYTHONS = 2.7 3.4 3.5
+PYTHONS = 2.7 3.4 3.5 3.6
 
 .PHONY: pythons $(PYTHONS) xenial-base
 
