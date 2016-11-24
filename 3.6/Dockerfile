@@ -12,4 +12,4 @@ RUN rm -rf /tmp/pymor
 VOLUME /src
 WORKDIR /src
 
-
+USER pymor
