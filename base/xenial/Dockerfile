@@ -22,17 +22,15 @@ RUN set -x \
     && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu \
     && gosu nobody true
-RUN alias sudo='gosu root'
 
-RUN apt-get update
-RUN apt-get install -q -y --no-install-recommends software-properties-common aptitude build-essential \
-    libboost1.58-all-dev mpi-default-bin texlive-base xvfb libatlas-dev
-RUN add-apt-repository -y ppa:pymor/stable
-RUN apt-get update
-RUN aptitude install -q --without-recommends -y '?reverse-depends(python-pymor-demos)'
+RUN apt-get update && \
+    apt-get install -q -y --no-install-recommends software-properties-common aptitude build-essential \
+        libboost1.58-all-dev mpi-default-bin texlive-base xvfb libatlas-dev && \
+    add-apt-repository -y ppa:pymor/stable && \
+    apt-get update && \
+    aptitude install -q --without-recommends -y '?reverse-depends(python-pymor-demos)' && \
+    groupadd -r pymor && useradd -r -g pymor -m pymor
 ENV DEBIAN_FRONTEND teletype
-
-RUN groupadd -r pymor && useradd -r -g pymor pymor
 
 VOLUME /src
 WORKDIR /src
