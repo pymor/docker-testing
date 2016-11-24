@@ -26,7 +26,7 @@ RUN alias sudo='gosu root'
 
 RUN apt-get update
 RUN apt-get install -q -y --no-install-recommends software-properties-common aptitude build-essential \
-    libboost1.58-all-dev mpi-default-bin texlive-base xvfb libatlas-dev libatlas-base-dev
+    libboost1.58-all-dev mpi-default-bin texlive-base xvfb libatlas-dev
 RUN add-apt-repository -y ppa:pymor/stable
 RUN apt-get update
 RUN aptitude install -q --without-recommends -y '?reverse-depends(python-pymor-demos)'
