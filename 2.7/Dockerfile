@@ -23,7 +23,3 @@ RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
 
 VOLUME /src
 WORKDIR /src
-
-USER pymor
-
-
