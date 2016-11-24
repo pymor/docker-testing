@@ -1,8 +1,8 @@
 FROM pymor/python:3.5
 
 # PySide has no wheel for 3.5 currently
-#RUN pip install --no-index -f https://pymor.github.io/wheels/ pyside && \
-#    python -c 'import  PySide' || echo "import PySide failed"
+RUN pip install --no-index -f https://pymor.github.io/wheels/ pyside && \
+   python -c 'import  PySide' || echo "import PySide failed"
 
 RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
     pip install -U pip && \
