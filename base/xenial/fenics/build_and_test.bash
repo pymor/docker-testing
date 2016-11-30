@@ -1,7 +1,8 @@
 #!/bin/bash
 
-/bin/bash -c "apt-get update && apt-get install -y swig cmake libeigen3-dev && \
-                pip install ply sympy && \
+/bin/bash -c "apt-get update && apt-get install -y swig cmake libpetsc3.6.2-dev \
+                libeigen3-dev && \
+               pip install petsc4py ply sympy && \
                FENICS_SRC_DIR=/tmp/src $FENICS_HOME/fenics-build && \
                ldconfig && \
                rm -rf $FENICS_HOME/local && \
