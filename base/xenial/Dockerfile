@@ -24,12 +24,23 @@ RUN set -x \
     && gosu nobody true
 
 RUN apt-get update && \
-    apt-get install -q -y --no-install-recommends software-properties-common aptitude build-essential \
+    apt-get install -q -y --no-install-recommends less software-properties-common aptitude build-essential \
         libboost1.58-all-dev mpi-default-bin texlive-base xvfb libatlas-dev gmsh && \
     add-apt-repository -y ppa:pymor/stable && \
     apt-get update && \
     aptitude install -q --without-recommends -y '?reverse-depends(python-pymor-demos)'
 ENV DEBIAN_FRONTEND teletype
+
+ADD install_requirements.bash /root/
+ADD fenics/* /root/fenics/
+ENV FENICS_BUILD_TYPE=Release \
+    FENICS_VERSION=1.6.0 \
+    FENICS_PREFIX=/usr/local \
+    FENICS_HOME=/root/fenics
+    # Install fenics as root user into /usr/local then remove the fenics-* scripts
+# the fenics.env.conf file and the unnecessary /home/fenics/local directory as
+# the user does not need them in the stable image!
+RUN /bin/bash -c "FENICS_SRC_DIR=/tmp/src $FENICS_HOME/fenics-pull"
 
 VOLUME /src
 WORKDIR /src
