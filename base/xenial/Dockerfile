@@ -36,7 +36,13 @@ ADD fenics/* /root/fenics/
 ENV FENICS_BUILD_TYPE=Release \
     FENICS_VERSION=1.6.0 \
     FENICS_PREFIX=/usr/local \
-    FENICS_HOME=/root/fenics
+    FENICS_HOME=/root/fenics \
+    PETSC_VERSION=3.7.4 \
+    MPI4PY_VERSION=2.0.0 \
+    PETSC4PY_VERSION=3.7.0 \
+    OPENBLAS_NUM_THREADS=1 \
+    OPENBLAS_VERBOSE=0 \
+    PETSC_DIR=/usr/local/petsc-32
     # Install fenics as root user into /usr/local then remove the fenics-* scripts
 # the fenics.env.conf file and the unnecessary /home/fenics/local directory as
 # the user does not need them in the stable image!
