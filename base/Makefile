@@ -1,4 +1,4 @@
-PYTHONS = 2.7 3.4 3.5
+PYTHONS = 2.7 3.4 3.5 3.6
 
 .PHONY: pythons $(PYTHONS) xenial-base
 
@@ -10,7 +10,7 @@ xenial-base:
 $(PYTHONS): xenial-base
 	docker build -t pymor/python:$@ $@
 
-push: $(PYTHONS)
+push:
 	docker push pymor/xenial-base
 	docker push pymor/python
 

@@ -1,4 +1,4 @@
-PYTHONS = 2.7 3.4 3.5
+PYTHONS = 2.7 3.4 3.5 3.6
 BASE := $(foreach t,$(PYTHONS),$(addsuffix $t,base))
 
 .PHONY: pythons $(PYTHONS) base push
@@ -14,7 +14,7 @@ $(BASE) :
 $(PYTHONS): base$@
 	docker build -t pymor/testing:$@ $@
 
-push: $(PYTHONS)
+push:
 	$(MAKE) -C base push
 	docker push pymor/testing
 
