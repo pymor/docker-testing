@@ -28,7 +28,7 @@ RUN apt-get update && \
     apt-get install -q -y --no-install-recommends less software-properties-common aptitude build-essential \
         libboost1.58-all-dev texlive-base xvfb libatlas-dev gmsh  \
         swig cmake libeigen3-dev python-subprocess32 bison flex libopenblas-dev liblapack-dev libpcre3-dev \
-        libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpich-dev mpich git-lfs && \
+        libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpich-dev mpich git-lfs ninja-build && \
     git lfs install && \
     add-apt-repository -y ppa:pymor/stable && \
     apt-get update && \
@@ -59,7 +59,13 @@ RUN set -e && wget --quiet -nc http://ftp.mcs.anl.gov/pub/petsc/release-snapshot
                 --with-c-support \
                 --with-debugging=0 \
                 --with-shared-libraries \
+                --download-suitesparse \
+                --download-scalapack \
+                --download-metis \
+                --download-parmetis \
+                --download-ptscotch \
                 --download-hypre \
+                --download-mumps \
                 --prefix=/usr/local/petsc-32 && \
      make && \
      make install && \
