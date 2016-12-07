@@ -9,20 +9,6 @@ RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial main restricted uni
     echo "deb-src mirror://mirrors.ubuntu.com/mirrors.txt xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
     echo "deb-src mirror://mirrors.ubuntu.com/mirrors.txt xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
 
-#installing sudo is officially discouraged
-ENV GOSU_VERSION 1.9
-RUN set -x \
-    && apt-get update && apt-get install -y --no-install-recommends ca-certificates wget curl && rm -rf /var/lib/apt/lists/* \
-    && dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
-    && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
-    && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" \
-    && export GNUPGHOME="$(mktemp -d)" \
-    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-    && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
-    && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
-    && chmod +x /usr/local/bin/gosu \
-    && gosu nobody true
-
 RUN apt-get update && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     apt-get install -q -y --no-install-recommends less software-properties-common aptitude build-essential \
@@ -36,8 +22,6 @@ RUN apt-get update && \
     apt-get clean
 ENV DEBIAN_FRONTEND teletype
 
-ADD install_requirements.bash /root/
-ADD fenics/* /root/fenics/
 ENV FENICS_BUILD_TYPE=Release \
     FENICS_VERSION=2016.1.0 \
     FENICS_PREFIX=/usr/local \
@@ -71,7 +55,11 @@ RUN set -e && wget --quiet -nc http://ftp.mcs.anl.gov/pub/petsc/release-snapshot
      make install && \
      rm -rf /tmp/*
 ENV PETSC_DIR=/usr/local/petsc-32
-    # Install fenics as root user into /usr/local then remove the fenics-* scripts
+
+ADD install_requirements.bash /root/
+ADD fenics/* /root/fenics/
+
+# Install fenics as root user into /usr/local then remove the fenics-* scripts
 # the fenics.env.conf file and the unnecessary /home/fenics/local directory as
 # the user does not need them in the stable image!
 RUN /bin/bash -c "FENICS_SRC_DIR=/tmp/src $FENICS_HOME/fenics-pull"
