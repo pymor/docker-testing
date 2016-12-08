@@ -18,4 +18,7 @@ push:
 	$(MAKE) -C base push
 	docker push pymor/testing
 
+demo: 2.7 3.5
+	$(MAKE) -C demo
+
 all: pythons
