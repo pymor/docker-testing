@@ -12,7 +12,7 @@ RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial main restricted uni
 RUN apt-get update && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     apt-get install -q -y --no-install-recommends less software-properties-common aptitude build-essential \
-        libboost1.58-all-dev texlive-base xvfb libatlas-dev gmsh  \
+        libboost1.58-all-dev texlive-base xvfb libatlas-dev gmsh sudo \
         swig cmake libeigen3-dev python-subprocess32 bison flex libopenblas-dev liblapack-dev libpcre3-dev \
         libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpich-dev mpich git-lfs ninja-build && \
     git lfs install && \
@@ -64,5 +64,8 @@ ADD fenics/* /root/fenics/
 # the user does not need them in the stable image!
 RUN /bin/bash -c "FENICS_SRC_DIR=/tmp/src $FENICS_HOME/fenics-pull"
 
+RUN adduser --disabled-password --gecos '' pymor && \
+    adduser pymor sudo &&\
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 VOLUME /src
 WORKDIR /src
