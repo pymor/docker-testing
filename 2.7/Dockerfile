@@ -10,3 +10,4 @@ RUN pip install --no-index -f https://pymor.github.io/wheels/ pyside && \
 USER pymor
 VOLUME /src
 WORKDIR /src
+ENV PYTHONPATH /src/src

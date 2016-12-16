@@ -9,3 +9,4 @@ ENV LD_LIBRARY_PATH=/usr/local/lib/python3.5/site-packages/PySide/:${LD_LIBRARY_
 USER pymor
 VOLUME /src
 WORKDIR /src
+ENV PYTHONPATH /src/src

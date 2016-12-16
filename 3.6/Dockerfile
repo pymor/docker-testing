@@ -12,3 +12,5 @@ ENV LD_LIBRARY_PATH=/usr/local/lib/python3.6/site-packages/PySide/:${LD_LIBRARY_
 USER pymor
 VOLUME /src
 WORKDIR /src
+# cannot go into base image
+ENV PYTHONPATH /src/src

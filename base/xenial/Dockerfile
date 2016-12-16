@@ -67,5 +67,3 @@ RUN /bin/bash -c "FENICS_SRC_DIR=/tmp/src $FENICS_HOME/fenics-pull"
 RUN adduser --disabled-password --gecos '' pymor && \
     adduser pymor sudo &&\
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-VOLUME /src
-WORKDIR /src
