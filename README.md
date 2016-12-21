@@ -21,3 +21,20 @@ docker run -e LOCAL_USER_ID=$(id -u) -v $PATH_TO_PYMOR_REPO:/src pymor/testing:3
 ```
 
 ```LOCAL_USER_ID``` defaults to 1000, so you can skip that if your local user is 1000 already.
+
+Building images
+---------------
+
+For local testing and development you must use the Makefile based buildsystem:
+```
+# to rebuild everything
+make
+# to update only 3.5 image and its bases
+make 3.5
+# you can also uplaod new images to dockerhub (this does not rebuild iage before pushing)
+make push
+# and you can change the namespace of the images for debugging purposes
+NAMESPACE=mydockerhub make
+# or
+export NAMESPACE=mydockerhub ; make && make push
+```

@@ -1,5 +1,6 @@
 PYTHONS = 2.7 3.4 3.5 3.6
 BASE := $(foreach t,$(PYTHONS),$(addsuffix $t,base))
+NAMESPACE ?= pymor
 
 .PHONY: pythons $(PYTHONS) base push
 
@@ -12,11 +13,12 @@ $(BASE) :
 	$(MAKE) -C base $@
 
 $(PYTHONS): base$@
-	docker build -t pymor/testing:$@ $@
+	sed -e "s/DOCKER_NAMESPACE/$(NAMESPACE)/g" $@/Dockerfile.in > $@/Dockerfile
+	docker build -t $(NAMESPACE)/testing:$@ $@
 
 push:
 	$(MAKE) -C base push
-	docker push pymor/testing
+	docker push $(NAMESPACE)/testing
 
 demo: 2.7 3.5
 	$(MAKE) -C demo
