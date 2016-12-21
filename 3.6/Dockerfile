@@ -9,7 +9,6 @@ RUN $FENICS_HOME/build_and_test.bash
 #    python -c 'import  PySide' || echo "import PySide failed"
 ENV LD_LIBRARY_PATH=/usr/local/lib/python3.6/site-packages/PySide/:${LD_LIBRARY_PATH}
 
-USER pymor
 VOLUME /src
 WORKDIR /src
 # cannot go into base image
