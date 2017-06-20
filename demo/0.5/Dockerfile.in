@@ -2,4 +2,8 @@ FROM pymor/testing:3.5
 MAINTAINER René Milk <rene.milk@wwu.de>
 
 #RUN sudo pip install pymor==0.5
+#RUN pip install pymor==0.4.1
+RUN rm -rf ~/.matplotlib && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
