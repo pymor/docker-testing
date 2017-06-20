@@ -80,6 +80,9 @@ RUN add-apt-repository -y ppa:mhochsteger/ngsolve && \
     apt-get update && \
     apt-get install -q --no-install-recommends -y ngsolve=6.2.0003-2~201706101858~ubuntu16.04.1
 
+RUN apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
+
 ADD entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["./.travis.script.bash"]
