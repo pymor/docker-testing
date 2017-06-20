@@ -5,6 +5,7 @@ services: docker
 
 script:
   - cd ${TRAVIS_BUILD_DIR}
+  - ./.travis.update_docker.sh
   - docker pull pymor/xenial-base
   - docker pull pymor/python:${PY}
   - docker pull pymor/testing:${PY}
@@ -30,3 +31,18 @@ matrix:
   - env: PY=3.4
   - env: PY=3.5
   - env: PY=3.6
+
+cache:
+  directories:
+    - /home/travis/docker/
+
+before_install:
+  - export DOCKER_CACHE_FILE=/home/travis/docker/cache_${PY}.tar.gz
+  - if [ -f ${DOCKER_CACHE_FILE} ]; then gunzip -c ${DOCKER_CACHE_FILE} | docker load; fi
+
+before_cache:
+  - |
+    if [[ ${TRAVIS_BRANCH} == "master" ]] && [[ ${TRAVIS_PULL_REQUEST} == "false" ]]; then
+        mkdir -p $(dirname ${DOCKER_CACHE_FILE})
+        docker save $(docker history -q pymor/testing:${PY}
+    fi
