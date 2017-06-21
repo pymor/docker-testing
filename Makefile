@@ -9,10 +9,11 @@ pythons: $(PYTHONS)
 base:
 	$(MAKE) -C base
 
-$(BASE) :
-	$(MAKE) -C base $@
+%_base :
+	$(MAKE) -C base $(subst _base,,$@)
 
-$(PYTHONS): base$@
+$(PYTHONS):
+	$(MAKE) $@_base
 	sed -e "s/DOCKER_NAMESPACE/$(NAMESPACE)/g" $@/Dockerfile.in > $@/Dockerfile
 	docker build -t $(NAMESPACE)/testing:$@ $@
 
