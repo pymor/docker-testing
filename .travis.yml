@@ -9,7 +9,8 @@ script:
   - docker pull pymor/xenial-base
   - docker pull pymor/python:${PY}
   - docker pull pymor/testing:${PY}
-  - travis_wait 50 make ${PY}
+  - travis_wait 50 make ${PY}_base
+  #- travis_wait 50 make ${PY}
   - |
     if [[ "${TRAVIS_PULL_REQUEST}" == "false" ]] ; then
         docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
