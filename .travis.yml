@@ -6,9 +6,6 @@ services: docker
 script:
   - cd ${TRAVIS_BUILD_DIR}
   - ./.travis.update_docker.sh
-  - docker pull pymor/xenial-base
-  - docker pull pymor/python:${PY}
-  - docker pull pymor/testing:${PY}
   - travis_wait 50 make ${PY}_base
   #- travis_wait 50 make ${PY}
   - |
@@ -45,5 +42,5 @@ before_cache:
   - |
     if [[ ${TRAVIS_BRANCH} == "master" ]] && [[ ${TRAVIS_PULL_REQUEST} == "false" ]]; then
         mkdir -p $(dirname ${DOCKER_CACHE_FILE})
-        docker save $(docker history -q pymor/testing:${PY}
+        docker save $(docker history -q pymor/testing:${PY})
     fi
