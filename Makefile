@@ -23,4 +23,7 @@ push:
 demo: 2.7 3.5
 	$(MAKE) -C demo
 
+packaging:
+	$(MAKE) -C packaging
+
 all: pythons
