@@ -1,4 +1,4 @@
-FROM DOCKER_NAMESPACE/python:2.7
+FROM pymor/python:2.7
 MAINTAINER René Milk <rene.milk@wwu.de>
 
 RUN /root/install_requirements.bash

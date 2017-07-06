@@ -14,12 +14,11 @@ base:
 
 $(PYTHONS):
 	$(MAKE) $@_base
-	sed -e "s/DOCKER_NAMESPACE/$(NAMESPACE)/g" $@/Dockerfile.in > $@/Dockerfile
-	docker build -t $(NAMESPACE)/testing:$@ $@
+	docker build -t pymor/testing:$@ $@
 
 push:
 	$(MAKE) -C base push
-	docker push $(NAMESPACE)/testing
+	docker push pymor/testing
 
 demo: 2.7 3.5
 	$(MAKE) -C demo

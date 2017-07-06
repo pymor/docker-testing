@@ -1,4 +1,4 @@
-FROM DOCKER_NAMESPACE/python:3.6
+FROM pymor/python:3.6
 MAINTAINER René Milk <rene.milk@wwu.de>
 
 RUN /root/install_requirements.bash

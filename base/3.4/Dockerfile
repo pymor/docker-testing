@@ -1,4 +1,4 @@
-FROM DOCKER_NAMESPACE/xenial-base
+FROM pymor/xenial-base
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
