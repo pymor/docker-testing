@@ -1,0 +1,20 @@
+version: 0.0.{build}
+image: Visual Studio 2017
+
+#environment:
+  #DOCKER_USER:
+    #secure: xxxxxxx
+  #DOCKER_PASS:
+    #secure: yyyyyyy
+install:
+  - docker version
+
+build_script:
+  - docker build -t pymor/windows_testing:3.6 windows/3.6
+
+test_script:
+  - docker run pymor/windows_testing:3.6 python --version
+
+#deploy_script:
+  #- docker login -u="$env:DOCKER_USER" -p="$env:DOCKER_PASS"
+  #- docker push me/myfavoriteapp
