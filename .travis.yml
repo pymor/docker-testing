@@ -44,3 +44,7 @@ before_cache:
         mkdir -p $(dirname ${DOCKER_CACHE_FILE})
         docker save $(docker history -q pymor/testing:${PY})
     fi
+
+branches:
+  except:
+  - windows
