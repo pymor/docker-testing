@@ -78,7 +78,7 @@ RUN /bin/bash -c "FENICS_SRC_DIR=/tmp/src $FENICS_HOME/fenics-pull"
 
 RUN add-apt-repository -y ppa:mhochsteger/ngsolve && \
     apt-get update && \
-    apt-get install -q --no-install-recommends -y ngsolve=6.2.0003-2~201706101858~ubuntu16.04.1
+    apt-get install -q --no-install-recommends -y ngsolve=6.2.0003-3~201707292102~ubuntu16.04.1
 
 RUN apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
