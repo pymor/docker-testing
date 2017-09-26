@@ -11,7 +11,7 @@ RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial main restricted uni
 
 RUN apt-get update && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    apt-get install -q -y --no-install-recommends less gdebi-core software-properties-common aptitude build-essential \
+    apt-get install -q -y --no-install-recommends less software-properties-common aptitude build-essential \
         libboost1.58-all-dev texlive-base xvfb libatlas-dev gmsh sudo paraview-python \
         swig cmake libeigen3-dev python-subprocess32 bison flex libopenblas-dev liblapack-dev libpcre3-dev \
         libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpich-dev mpich git-lfs ninja-build && \
@@ -76,11 +76,9 @@ ADD fenics/* /root/fenics/
 # the user does not need them in the stable image!
 RUN /bin/bash -c "FENICS_SRC_DIR=/tmp/src $FENICS_HOME/fenics-pull"
 
-RUN apt-get update && \
-    apt-add-repository universe && \
-    apt-add-repository "deb http://ngsolve.org/files/ubuntu `lsb_release -sc`_`dpkg --print-architecture`/" && \
+RUN add-apt-repository -y ppa:mhochsteger/ngsolve && \
     apt-get update && \
-    apt-get install -y --allow-unauthenticated ngsolve
+    apt-get install -q --no-install-recommends -y ngsolve=6.2.0003-3~201707292102~ubuntu16.04.1
 
 RUN apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
