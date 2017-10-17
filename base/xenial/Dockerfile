@@ -1,20 +1,13 @@
-FROM ubuntu:xenial
+FROM debian:stretch
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial main restricted universe multiverse" > /etc/apt/sources.list && \
-    echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial-security main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src mirror://mirrors.ubuntu.com/mirrors.txt xenial main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src mirror://mirrors.ubuntu.com/mirrors.txt xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src mirror://mirrors.ubuntu.com/mirrors.txt xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
-
 ENV APTINSTALL="apt-get install -q -y --no-install-recommends"
 RUN apt-get update && ${APTINSTALL} wget curl less software-properties-common \
-        libboost1.58-all-dev texlive-base xvfb libatlas-dev \
+        libboost-all-dev texlive-base xvfb libatlas-dev \
         gmsh sudo paraview-python swig cmake libeigen3-dev python-subprocess32 \
         aptitude bison flex libopenblas-dev liblapack-dev libpcre3-dev \
-        libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpich-dev mpich && \
+        libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpich-dev mpich gosu && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     ${APTINSTALL} git-lfs ninja-build && \
     git lfs install && \
@@ -58,18 +51,6 @@ RUN set -e && wget --quiet -nc http://ftp.mcs.anl.gov/pub/petsc/release-snapshot
      rm -rf /tmp/*
 ENV PETSC_DIR=/usr/local/petsc-32
 
-ENV GOSU_VERSION 1.9
-RUN set -x \
-    && apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
-    && dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
-    && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
-    && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" \
-    && export GNUPGHOME="$(mktemp -d)" \
-    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-    && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
-    && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
-    && chmod +x /usr/local/bin/gosu \
-    && gosu nobody true
 
 ADD install_requirements.bash /root/
 ADD fenics/* /root/fenics/
