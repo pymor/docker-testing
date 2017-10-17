@@ -1,4 +1,4 @@
-FROM buildpack-deps:xenial
+FROM ubuntu:xenial
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -9,12 +9,14 @@ RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial main restricted uni
     echo "deb-src mirror://mirrors.ubuntu.com/mirrors.txt xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
     echo "deb-src mirror://mirrors.ubuntu.com/mirrors.txt xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
 
-RUN apt-get update && \
+ENV APTINSTALL="apt-get install -q -y --no-install-recommends"
+RUN apt-get update && ${APTINSTALL} wget curl less software-properties-common \
+        libboost1.58-all-dev texlive-base xvfb libatlas-dev \
+        gmsh sudo paraview-python swig cmake libeigen3-dev python-subprocess32 \
+        aptitude bison flex libopenblas-dev liblapack-dev libpcre3-dev \
+        libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpich-dev mpich && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    apt-get install -q -y --no-install-recommends less software-properties-common aptitude build-essential \
-        libboost1.58-all-dev texlive-base xvfb libatlas-dev gmsh sudo paraview-python \
-        swig cmake libeigen3-dev python-subprocess32 bison flex libopenblas-dev liblapack-dev libpcre3-dev \
-        libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpich-dev mpich git-lfs ninja-build && \
+    ${APTINSTALL} git-lfs ninja-build && \
     git lfs install && \
     add-apt-repository -y ppa:pymor/stable && \
     apt-get update && \

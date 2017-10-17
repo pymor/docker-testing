@@ -9,7 +9,7 @@ ENV LANG C.UTF-8
 
 # runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-		tcl \
+		tcl libssl1.0.0 zlib1g \
 		tk \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -21,7 +21,7 @@ ENV PYTHON_PIP_VERSION 9.0.1
 
 RUN set -ex \
 	&& buildDeps=' \
-		tcl-dev \
+		tcl-dev libffi-dev libssl-dev zlib1g-dev\
 		tk-dev \
 	' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
