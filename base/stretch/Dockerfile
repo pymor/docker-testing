@@ -3,7 +3,6 @@ ARG PYVER
 FROM pymor/petsc:3.7.4 as petsclayer
 
 ENV PETSC_DIR=/usr/local/petsc-32
-RUN ls -la ${PETSC_DIR}
 
 FROM pymor/python:$PYVER
 MAINTAINER René Milk <rene.milk@wwu.de>
@@ -17,6 +16,7 @@ RUN ${APTINSTALL} wget curl less software-properties-common \
         gcc g++ make libc6-dev dirmngr \
         gmsh sudo paraview-python swig cmake libeigen3-dev python-subprocess32 \
         aptitude bison flex libopenblas-dev liblapack-dev libpcre3-dev ninja-build \
+        xauth \
         libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpich-dev mpich gosu && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     ${APTINSTALL} --allow-unauthenticated git-lfs && \
