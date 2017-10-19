@@ -5,7 +5,6 @@ services: docker
 
 script:
   - cd ${TRAVIS_BUILD_DIR}
-  - ./.travis.update_docker.sh
   - travis_wait 50 make ${PY}_base
   - travis_wait 50 make ${PY}
   - |

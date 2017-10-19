@@ -1,8 +1,8 @@
-PYTHONS = 2.7 3.5 3.6 3.7-rc
+PYTHONS = 2.7 3.5 3.6
 BASE := $(foreach t,$(PYTHONS),$(addsuffix $t,base))
 NAMESPACE ?= pymor
 
-.PHONY: pythons $(PYTHONS) base push
+.PHONY: pythons $(PYTHONS) base push 3.7-rc
 
 pythons: $(PYTHONS)
 
@@ -11,6 +11,10 @@ base:
 
 %_base :
 	$(MAKE) -C base $(subst _base,,$@)
+
+3.7-rc:
+	$(MAKE) $@_base
+	docker build -t pymor/testing:$@ $@
 
 $(PYTHONS):
 	$(MAKE) $@_base
