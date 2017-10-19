@@ -45,13 +45,13 @@ ENV DEBIAN_FRONTEND=teletype \
 COPY --from=petsclayer ${PETSC_DIR} ${PETSC_DIR}
 
 ADD install_requirements.bash /root/
-# ADD fenics/* /root/fenics/
+ADD fenics/* /root/fenics/
 # Install fenics as root user into /usr/local then remove the fenics-* scripts
 # the fenics.env.conf file and the unnecessary /home/fenics/local directory as
 # the user does not need them in the stable image!
-ONBUILD RUN /root/install_requirements.bash
-# ONBUILD RUN $FENICS_HOME/build_and_test.bash
-
+ONBUILD RUN /root/install_requirements.bash && \
+            $FENICS_HOME/build_and_test.bash
+ONBUILD RUN rm -rf $FENICS_HOME
 ADD entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["./.travis.script.bash"]
