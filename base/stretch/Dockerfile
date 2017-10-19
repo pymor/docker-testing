@@ -1,6 +1,6 @@
 ARG PYVER
 
-FROM pymor/petsc:3.7.4 as petsclayer
+FROM pymor/petsc:py${PYVER}_3.7.6 as petsclayer
 
 ENV PETSC_DIR=/usr/local/petsc-32
 
