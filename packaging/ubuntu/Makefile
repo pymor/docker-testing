@@ -6,8 +6,7 @@ NAMESPACE ?= pymor
 codenames: $(CODENAMES)
 
 $(CODENAMES):
-	sed -e "s/CODENAME/$@/g" Dockerfile.in > $@/Dockerfile
-	docker build -t $(NAMESPACE)/packaging_ubuntu:$@ $@
+	docker build --build-args=CODENAME=$@ -t $(NAMESPACE)/packaging_ubuntu:$@ .
 
 push:
 	docker push $(NAMESPACE)/packaging_ubuntu

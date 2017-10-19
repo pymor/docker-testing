@@ -1,4 +1,4 @@
-PYTHONS = 2.7 3.4 3.5 3.6
+PYTHONS = 2.7 3.5 3.6 3.7-rc
 BASE := $(foreach t,$(PYTHONS),$(addsuffix $t,base))
 NAMESPACE ?= pymor
 

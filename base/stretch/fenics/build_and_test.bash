@@ -10,13 +10,14 @@ pip install --no-cache-dir ply sympy==1.0 && \
     pip install --no-cache-dir jupyter==1.0.0 && \
     pip install --no-cache-dir ipython==5.1.0 ipykernel==4.5.2
 
-FENICS_SRC_DIR=/tmp/src $FENICS_HOME/fenics-build && \
+$FENICS_HOME/fenics-pull
+$FENICS_HOME/fenics-build && \
     ldconfig && \
     rm -rf $FENICS_HOME/local && \
-    rm -rf /tmp/src && \
     cp -r $FENICS_PREFIX/share/dolfin/demo $FENICS_HOME/demo && \
     rm -rf $FENICS_HOME/bin && \
-    echo 'source /usr/local/share/dolfin/dolfin.conf' >> $FENICS_HOME/.profile
+    echo 'source /usr/local/share/dolfin/dolfin.conf' >> $FENICS_HOME/.profile && \
+    rm -r $FENICS_SRC_DIR
 
 # Make sure we get something that basically works on this stable build.  It
 # would be better to run unit tests, but at the moment even the quick tests

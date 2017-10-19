@@ -1,4 +1,4 @@
-FROM pymor/base:3.6
+FROM pymor/base:3.7-rc
 MAINTAINER René Milk <rene.milk@wwu.de>
 
 RUN pip install pyqt5
