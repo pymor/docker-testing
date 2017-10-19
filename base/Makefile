@@ -5,11 +5,10 @@ PYTHONS = 2.7 3.4 3.5 3.6 3.7-rc
 pythons: $(PYTHONS)
 
 
-$(PYTHONS): 
+$(PYTHONS):
 	docker build --build-arg PYVER=$@ -t pymor/base:$@ stretch
 
 push:
-	echo docker push pymor/base
-	echo docker push pymor/python
+	docker push pymor/base
 
 all: pythons
