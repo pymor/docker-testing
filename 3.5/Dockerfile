@@ -1,4 +1,4 @@
-FROM pymor/ngsolve:v6.2.1709 as ngsolve
+FROM pymor/ngsolve:py3.5_v6.2.1709 as ngsolve
 
 FROM pymor/base:3.5
 MAINTAINER René Milk <rene.milk@wwu.de>
