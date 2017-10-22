@@ -1,10 +1,6 @@
 ARG PYVER
 
-FROM pymor/petsc:py${PYVER}_3.7.6 as petsclayer
-
-ENV PETSC_DIR=/usr/local/petsc-32
-
-FROM pymor/fenics:${PYVER} as fenicslayer
+FROM pymor/fenics:py${PYVER} as fenicslayer
 
 FROM pymor/python:$PYVER
 MAINTAINER René Milk <rene.milk@wwu.de>
@@ -13,7 +9,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     APTINSTALL="apt-get install -q -y --no-install-recommends" \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8 \
-    LANGUAGE=C.UTF-8
+    LANGUAGE=C.UTF-8 \
+    PETSC_DIR=/usr/local/petsc-32
 
 RUN apt-get update && \
     echo "C.UTF-8 UTF-8" > /etc/locale.gen && \
@@ -35,13 +32,16 @@ RUN apt-get update && \
     aptitude install -q --without-recommends -y '?reverse-depends(python-pymor-demos)' && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-ENV DEBIAN_FRONTEND=teletype \
-    PETSC_DIR=/usr/local/petsc-32
+ENV DEBIAN_FRONTEND=teletype
 
 COPY --from=fenicslayer /usr/local/ /usr/local/
-COPY --from=petsclayer ${PETSC_DIR} ${PETSC_DIR}
 
+ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
+    pip install -U pip && \
+    pip install -r /tmp/pymor/requirements.txt && \
+    pip install -r /tmp/pymor/requirements-travis.txt && \
+    pip install -r /tmp/pymor/requirements-optional.txt && \
+    rm -rf /tmp/pymor
 
 ADD entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
