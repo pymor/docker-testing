@@ -1,8 +1,9 @@
 ARG PYVER
 
 FROM pymor/fenics:py${PYVER} as fenicslayer
+FROM pymor/pyqt5:py${PYVER} as pyqt5layer
+FROM pymor/python:${PYVER}
 
-FROM pymor/python:$PYVER
 MAINTAINER René Milk <rene.milk@wwu.de>
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -28,12 +29,17 @@ RUN apt-get update && \
         --recv-keys "BC85FC8237C72835544C5DED4E56948686EDFBEF" && \
     echo "deb http://ppa.launchpad.net/pymor/stable/ubuntu zesty main" \
         > /etc/apt/sources.list.d/pymor.list && \
+    echo "alias ls='ls -h --color=auto' \
+          alias ll='ls -lh'" >> /etc/profile && \
     apt-get update && \
     aptitude install -q --without-recommends -y '?reverse-depends(python-pymor-demos)' && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-ENV DEBIAN_FRONTEND=teletype
+ENV DEBIAN_FRONTEND=teletype \
+    SLEPC_DIR=/usr/local/slepc-32 \
+    PETSC_DIR=/usr/local/petsc-32
 
+COPY --from=pyqt5layer /usr/local/ /usr/local/
 COPY --from=fenicslayer /usr/local/ /usr/local/
 
 ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
@@ -41,6 +47,10 @@ ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
     pip install -r /tmp/pymor/requirements.txt && \
     pip install -r /tmp/pymor/requirements-travis.txt && \
     pip install -r /tmp/pymor/requirements-optional.txt && \
+    cd /tmp/pymor/ && \
+    python setup.py build_ext -i && \
+    cd src && \
+    python -c "import pymor.core.config as cfg;import sys; sys.exit(not cfg.config.HAVE_FENICS)" && \
     rm -rf /tmp/pymor
 
 ADD entrypoint.sh /usr/local/bin/
