@@ -17,11 +17,11 @@ RUN apt-get update && \
     echo "C.UTF-8 UTF-8" > /etc/locale.gen && \
     ${APTINSTALL} wget curl less software-properties-common \
         libboost-all-dev texlive-base xvfb gnupg libatlas-dev \
-        gcc g++ make libc6-dev dirmngr \
+        gcc g++ make libc6-dev dirmngr eatmydata \
         gmsh sudo paraview-python swig cmake libeigen3-dev python-subprocess32 \
         aptitude bison flex libopenblas-dev liblapack-dev libpcre3-dev ninja-build \
         xauth \
-        libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpich-dev mpich gosu && \
+        libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpi-dev openmpi-bin libopenmpi-dev gosu && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     ${APTINSTALL} --allow-unauthenticated git-lfs && \
     git lfs install && \
