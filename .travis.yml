@@ -24,7 +24,6 @@ env:
 
 matrix:
   include:
-  - env: PY=2.7
   - env: PY=3.7-rc
   - env: PY=3.5
   - env: PY=3.6
