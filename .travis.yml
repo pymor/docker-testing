@@ -11,6 +11,9 @@ script:
     if [[ "${TRAVIS_PULL_REQUEST}" == "false" ]] ; then
         docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
         make push
+        if [[ "${PY}" == "3.6" ]] ; then
+          cd demo && make master && docker push pymor/demo:master
+        fi
     fi
 
 notifications:
