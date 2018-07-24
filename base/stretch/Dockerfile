@@ -2,6 +2,7 @@ ARG PYVER
 
 FROM pymor/fenics:py${PYVER} as fenicslayer
 FROM pymor/pyqt5:py${PYVER} as pyqt5layer
+FROM pymor/ngsolve:py${PYVER}_v6.2.1709 as ngsolve
 FROM pymor/python:${PYVER}
 
 MAINTAINER René Milk <rene.milk@wwu.de>
@@ -11,7 +12,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8 \
     LANGUAGE=C.UTF-8 \
-    PETSC_DIR=/usr/local/petsc-32
+    PETSC_DIR=/usr/local/petsc-32 \
+    DOCKER_NGSOLVE=1 \
+    DOCKER_PYMOR=1
 
 RUN apt-get update && \
     echo "C.UTF-8 UTF-8" > /etc/locale.gen && \
@@ -29,8 +32,8 @@ RUN apt-get update && \
         --recv-keys "BC85FC8237C72835544C5DED4E56948686EDFBEF" && \
     echo "deb http://ppa.launchpad.net/pymor/stable/ubuntu zesty main" \
         > /etc/apt/sources.list.d/pymor.list && \
-    echo "alias ls='ls -h --color=auto' \
-          alias ll='ls -lh'" >> /etc/profile && \
+    echo "alias ls='ls -h --color=auto'" >> /etc/bash.bashrc && \
+    echo "alias ll='ls -lh'" >> /etc/bash.bashrc && \
     apt-get update && \
     aptitude install -q --without-recommends -y '?reverse-depends(python-pymor-demos)' && \
     apt-get clean && \
@@ -43,7 +46,7 @@ COPY --from=pyqt5layer /usr/local/ /usr/local/
 COPY --from=fenicslayer /usr/local/ /usr/local/
 
 ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
-    pip install -U pip && \
+    pip install -U pip pytest-pycharm && \
     pip install -r /tmp/pymor/requirements.txt && \
     pip install -r /tmp/pymor/requirements-travis.txt && \
     pip install -r /tmp/pymor/requirements-optional.txt && \
