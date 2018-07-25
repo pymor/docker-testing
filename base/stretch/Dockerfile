@@ -7,6 +7,9 @@ FROM pymor/python:${PYVER}
 
 MAINTAINER René Milk <rene.milk@wwu.de>
 
+# needs repeating to be usable outside FROM
+ARG PYVER
+
 ENV DEBIAN_FRONTEND=noninteractive \
     APTINSTALL="apt-get install -q -y --no-install-recommends" \
     LC_ALL=C.UTF-8 \
@@ -44,6 +47,17 @@ ENV DEBIAN_FRONTEND=teletype \
 
 COPY --from=pyqt5layer /usr/local/ /usr/local/
 COPY --from=fenicslayer /usr/local/ /usr/local/
+COPY --from=ngsolve /root/ngsolve*deb /root
+
+RUN ln -s /usr/lib/python${PYVER}/site-packages/ngsolve \
+          /usr/local/lib/python${PYVER}/site-packages/ngsolve && \
+    ln -s /usr/lib/python${PYVER}/site-packages/netgen \
+          /usr/local/lib/python${PYVER}/site-packages/netgen && \
+    apt update && apt install -y /root/ngsolve-*_amd64.deb && \
+    rm /root/ngsolve-*.deb && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    python -c "import ngsolve"
 
 ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
     pip install -U pip pytest-pycharm && \
