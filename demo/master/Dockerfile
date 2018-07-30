@@ -5,7 +5,7 @@ USER root
 
 RUN apt-get update && apt-get install \
     --no-install-recommends -y xauth x11-apps xvfb libgl1-mesa-dri libglu1-mesa
-RUN pip install git+https://github.com/pymor/pymor.git@master
+RUN ${PIP_INSTALL} git+https://github.com/pymor/pymor.git@master
 
 RUN rm -rf ~/.matplotlib && \
     apt-get autoremove -y && \

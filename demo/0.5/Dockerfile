@@ -4,7 +4,7 @@ MAINTAINER René Milk <rene.milk@wwu.de>
 USER root
 RUN apt-get update && apt-get install \
     --no-install-recommends -y xauth x11-apps xvfb libgl1-mesa-dri-lts-xenial libgl1-mesa-dri libglu1-mesa
-#RUN pip install pymor==0.5.0
+#RUN ${PIP_INSTALL} pymor==0.5.0
 USER pymor
 
     rm -rf /var/lib/apt/lists/*

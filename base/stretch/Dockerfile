@@ -60,16 +60,16 @@ RUN ln -s /usr/lib/python${PYVER}/site-packages/ngsolve \
     python -c "import ngsolve"
 
 ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
-    pip install -U pip pytest-pycharm && \
-    pip install -r /tmp/pymor/requirements.txt && \
-    pip install -r /tmp/pymor/requirements-travis.txt && \
-    pip install -r /tmp/pymor/requirements-optional.txt && \
+    ${PIP_INSTALL} -U pip pytest-pycharm && \
+    ${PIP_INSTALL} -r /tmp/pymor/requirements.txt && \
+    ${PIP_INSTALL} -r /tmp/pymor/requirements-travis.txt && \
+    ${PIP_INSTALL} -r /tmp/pymor/requirements-optional.txt && \
     cd /tmp/pymor/ && \
     python setup.py build_ext -i && \
     cd src && \
     python -c "import pymor.core.config as cfg;import sys; sys.exit(not cfg.config.HAVE_FENICS)" && \
     rm -rf /tmp/pymor
-
+ONBUILD RUN (find /usr -type f | xargs strip -p -d) || true ; du -sch .
 ADD entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["./.travis.script.bash"]
