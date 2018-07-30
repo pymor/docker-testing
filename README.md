@@ -38,3 +38,7 @@ NAMESPACE=mydockerhub make
 # or
 export NAMESPACE=mydockerhub ; make && make push
 ```
+
+| Image  | Info |
+| :----- | :--- |
+| testing | [![](https://images.microbadger.com/badges/image/pymor/testing.svg)](https://microbadger.com/images/pymor/testing "CI testing images") |
