@@ -69,7 +69,7 @@ ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
     cd src && \
     python -c "import pymor.core.config as cfg;import sys; sys.exit(not cfg.config.HAVE_FENICS)" && \
     rm -rf /tmp/pymor
-ONBUILD RUN (find /usr -type f | xargs strip -p -d) || true ; du -sch .
+ONBUILD RUN /bin/bash -l -c "(find /usr -type f | xargs strip -p -d &> /dev/null ; du -sch .) || true " 
 ADD entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["./.travis.script.bash"]
