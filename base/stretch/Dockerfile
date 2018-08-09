@@ -64,12 +64,19 @@ ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
     ${PIP_INSTALL} -r /tmp/pymor/requirements.txt && \
     ${PIP_INSTALL} -r /tmp/pymor/requirements-travis.txt && \
     ${PIP_INSTALL} -r /tmp/pymor/requirements-optional.txt && \
+    /bin/bash -l -c "(find /usr \( -name '*.a*' -o -name '*.so*' \) -type f | grep -v freetype | grep -v _imaging | grep -v libtiff | xargs strip -p --strip-unneeded -d &> /dev/null ; du -sch .) || true " && \
     cd /tmp/pymor/ && \
     python setup.py build_ext -i && \
     cd src && \
     python -c "import pymor.core.config as cfg;import sys; sys.exit(not cfg.config.HAVE_FENICS)" && \
+    python -c "from pymor.bindings.ngsolve import NGSolveVectorSpace" && \
+    python -c "import ngsolve" && \
+    python -c "import dolfin" && \
+    python -c "import Qt" && \
+    python -c "from PIL import Image, ImageDraw, ImageFont, _imagingft" && \
+    python -c "import petsc4py"
     rm -rf /tmp/pymor
-ONBUILD RUN /bin/bash -l -c "(find /usr \( -name '*.a*' -o -name '*.so*' \) -type f | grep -v freetype | grep -v _imaging | grep -v libtiff | xargs strip -p --strip-unneeded -d &> /dev/null ; du -sch .) || true "
+
 ADD entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["./.travis.script.bash"]
