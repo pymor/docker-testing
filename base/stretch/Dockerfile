@@ -74,7 +74,7 @@ ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
     python -c "import dolfin" && \
     python -c "import Qt" && \
     python -c "from PIL import Image, ImageDraw, ImageFont, _imagingft" && \
-    python -c "import petsc4py"
+    python -c "import petsc4py" && \
     rm -rf /tmp/pymor
 
 ADD entrypoint.sh /usr/local/bin/
