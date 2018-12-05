@@ -17,7 +17,10 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LANGUAGE=C.UTF-8 \
     PETSC_DIR=/usr/local/petsc-32 \
     DOCKER_NGSOLVE=1 \
-    DOCKER_PYMOR=1
+    DOCKER_PYMOR=1 \
+    OPENBLAS_NUM_THREADS=1 \
+    GOTO_NUM_THREADS=1 \
+    OMP_NUM_THREADS=1 
 
 RUN apt-get update && \
     echo "C.UTF-8 UTF-8" > /etc/locale.gen && \
