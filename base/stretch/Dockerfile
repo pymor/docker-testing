@@ -20,7 +20,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     DOCKER_PYMOR=1 \
     OPENBLAS_NUM_THREADS=1 \
     GOTO_NUM_THREADS=1 \
-    OMP_NUM_THREADS=1 
+    OMP_NUM_THREADS=1
 
 RUN apt-get update && \
     echo "C.UTF-8 UTF-8" > /etc/locale.gen && \
@@ -67,7 +67,7 @@ ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
     ${PIP_INSTALL} -r /tmp/pymor/requirements.txt && \
     ${PIP_INSTALL} -r /tmp/pymor/requirements-travis.txt && \
     ${PIP_INSTALL} -r /tmp/pymor/requirements-optional.txt && \
-    /bin/bash -l -c "(find /usr \( -name '*.a*' -o -name '*.so*' \) -type f | grep -v freetype | grep -v _imaging | grep -v libtiff | xargs strip -p --strip-unneeded -d &> /dev/null ; du -sch .) || true " && \
+    /bin/bash -l -c "(find /usr \( -name '*.a*' -o -name '*.so*' \) -type f | grep -v mess | grep -v freetype | grep -v _imaging | grep -v libtiff | xargs strip -p --strip-unneeded -d &> /dev/null ; du -sch .) || true " && \
     cd /tmp/pymor/ && \
     python setup.py build_ext -i && \
     cd src && \
