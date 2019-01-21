@@ -54,8 +54,6 @@ before_cache:
 jobs:
   include:
   - stage: pythons
-    env: PY=3.5
-  - stage: pythons
     env: PY=3.6
   - stage: pythons
     env: PY=3.7
