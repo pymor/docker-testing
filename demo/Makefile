@@ -1,4 +1,4 @@
-TAGS = 0.4 0.5 master
+TAGS = 0.5 master
 
 .PHONY: TAGS $(TAGS)
 
