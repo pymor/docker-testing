@@ -1,4 +1,4 @@
-PYTHONS = 3.5 3.6 3.7
+PYTHONS = 3.6 3.7
 BASE := $(foreach t,$(PYTHONS),$(addsuffix $t,base))
 NAMESPACE ?= pymor
 
@@ -20,7 +20,7 @@ push:
 	$(MAKE) -C base push
 	docker push pymor/testing
 
-demo: 3.5
+demo: 3.6
 	$(MAKE) -C demo
 
 packaging:
