@@ -29,19 +29,14 @@ RUN apt-get update && \
         gcc g++ make libc6-dev dirmngr eatmydata \
         gmsh sudo paraview-python swig cmake libeigen3-dev python-subprocess32 \
         aptitude bison flex libopenblas-dev liblapack-dev libpcre3-dev ninja-build \
-        xauth \
+        xauth python3 python3-opengl mpi-default-dev python3-virtualenv \
         libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpi-dev openmpi-bin libopenmpi-dev gosu && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     ${APTINSTALL} --allow-unauthenticated git-lfs && \
     git lfs install && \
-    apt-key adv -v --keyserver keyserver.ubuntu.com \
-        --recv-keys "BC85FC8237C72835544C5DED4E56948686EDFBEF" && \
-    echo "deb http://ppa.launchpad.net/pymor/stable/ubuntu zesty main" \
-        > /etc/apt/sources.list.d/pymor.list && \
     echo "alias ls='ls -h --color=auto'" >> /etc/bash.bashrc && \
     echo "alias ll='ls -lh'" >> /etc/bash.bashrc && \
     apt-get update && \
-    aptitude install -q --without-recommends -y '?reverse-depends(python-pymor-demos)' && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=teletype \
