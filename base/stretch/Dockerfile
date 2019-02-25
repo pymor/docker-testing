@@ -3,6 +3,7 @@ ARG PYVER
 FROM pymor/fenics:py${PYVER} as fenicslayer
 FROM pymor/pyqt5:py${PYVER} as pyqt5layer
 FROM pymor/ngsolve:py${PYVER}_v6.2.1709 as ngsolve
+FROM pymor/dealii:v9.0.1_py${PYVER} as dealii
 FROM pymor/python:${PYVER}
 
 MAINTAINER René Milk <rene.milk@wwu.de>
@@ -29,7 +30,7 @@ RUN apt-get update && \
         gcc g++ make libc6-dev dirmngr eatmydata \
         gmsh sudo paraview-python swig cmake libeigen3-dev python-subprocess32 \
         aptitude bison flex libopenblas-dev liblapack-dev libpcre3-dev ninja-build \
-        xauth python3 python3-opengl mpi-default-dev python3-virtualenv \
+        xauth python3 python3-opengl mpi-default-dev python3-virtualenv gsl-bin \
         libgmp-dev libmpfr-dev libcln-dev vim libhdf5-mpi-dev openmpi-bin libopenmpi-dev gosu && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     ${APTINSTALL} --allow-unauthenticated git-lfs && \
@@ -45,6 +46,7 @@ ENV DEBIAN_FRONTEND=teletype \
 
 COPY --from=pyqt5layer /usr/local/ /usr/local/
 COPY --from=fenicslayer /usr/local/ /usr/local/
+COPY --from=dealii /usr/local/ /usr/local/
 COPY --from=ngsolve /root/ngsolve*deb /root
 
 RUN ln -s /usr/lib/python${PYVER}/site-packages/ngsolve \
@@ -71,6 +73,7 @@ ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
     python -c "import ngsolve" && \
     python -c "import dolfin" && \
     python -c "import Qt" && \
+    python -c "import pymor_dealii.pymor.demo" && \
     python -c "from PIL import Image, ImageDraw, ImageFont, _imagingft" && \
     python -c "import petsc4py" && \
     rm -rf /tmp/pymor
