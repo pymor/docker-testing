@@ -1,0 +1,24 @@
+jobs:
+- job: 'DockerBuild'
+  pool:
+    vmImage: 'ubuntu-16.04'
+  strategy:
+    matrix:
+      Python36:
+        PY: '3.6'
+      Python37:
+        PY: '3.7'
+    maxParallel: 4
+
+  steps:
+    - checkout: self
+      submodules: true
+    - task: Docker@1
+      displayName: Container registry login
+      inputs:
+        command: login
+        containerregistrytype: Container Registry
+        dockerRegistryEndpoint: dockerhub
+
+    - script: make $(PY)
+    - script: make push
