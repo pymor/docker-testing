@@ -9,7 +9,8 @@ RUN echo 'APT::Default-Release "stable";' > /etc/apt/apt.conf.d/default-release 
     apt-get install --no-install-recommends -y xvfb libgl1-mesa-dri libglu1-mesa && \
     rm -rf /var/lib/apt/lists/* && \
     useradd --shell /bin/bash -u 1000 -o -c "" -m pymor
-RUN ${PIP_INSTALL} "pymor>=0.5.0,<0.6"
+RUN ${PIP_INSTALL} "pymor>=0.5.0,<0.6" && \
+    ${PIP_INSTALL} "pymor_dealii>=0.5.0,<0.6"
 USER pymor
 
 ENV LIBGL_DEBUG=verbose
