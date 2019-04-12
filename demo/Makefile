@@ -1,4 +1,4 @@
-TAGS = 0.5 master
+TAGS = 0.5 master 2019.2rc0
 
 .PHONY: TAGS $(TAGS)
 

@@ -19,8 +19,9 @@ $(PYTHONS):
 push:
 	$(MAKE) -C base push
 	docker push pymor/testing
+	docker push pymor/demo
 
-demo: 3.6
+demo: 3.7
 	$(MAKE) -C demo
 
 packaging:
