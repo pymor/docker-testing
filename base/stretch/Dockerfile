@@ -27,7 +27,7 @@ RUN apt-get update && \
     echo "C.UTF-8 UTF-8" > /etc/locale.gen && \
     ${APTINSTALL} wget curl less software-properties-common \
         libboost-all-dev texlive-base xvfb gnupg libatlas-dev \
-        gcc g++ make libc6-dev dirmngr eatmydata \
+        gcc g++ make libc6-dev dirmngr eatmydata pandoc \
         gmsh sudo paraview-python swig cmake libeigen3-dev python-subprocess32 \
         aptitude bison flex libopenblas-dev liblapack-dev libpcre3-dev ninja-build \
         xauth python3 python3-opengl mpi-default-dev python3-virtualenv gsl-bin \
