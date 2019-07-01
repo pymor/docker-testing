@@ -6,7 +6,7 @@ pythons: $(PYTHONS)
 
 
 $(PYTHONS):
-	docker build --pull --build-arg PYVER=$@ -t pymor/base:$@ stretch
+	docker build --build-arg PYVER=$@ -t pymor/base:$@ buster
 
 push:
 	docker push pymor/base

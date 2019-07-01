@@ -2,11 +2,8 @@ FROM pymor/testing:3.7
 MAINTAINER René Milk <rene.milk@wwu.de>
 
 USER root
-RUN echo 'APT::Default-Release "stable";' > /etc/apt/apt.conf.d/default-release && \
-    echo "deb http://deb.debian.org/debian stretch-backports main contrib non-free" > /etc/apt/sources.list.d/stretch-backports.list && \
-    apt-get update && \
-    apt-get install --no-install-recommends -y -t stretch-backports libglvnd0 && \
-    apt-get install --no-install-recommends -y xvfb libgl1-mesa-dri libglu1-mesa  \
+RUN apt-get update && \
+    apt-get install libglvnd0  xvfb libgl1-mesa-dri libglu1-mesa  \
       # for pymor-dealII compile
       libgsl-dev \
       liblapack-dev \
