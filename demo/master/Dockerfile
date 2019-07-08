@@ -1,5 +1,5 @@
 FROM pymor/testing:3.7
-MAINTAINER René Milk <rene.milk@wwu.de>
+MAINTAINER René Fritze <rene.fritze@wwu.de>
 
 USER root
 RUN apt-get update && apt-get install \

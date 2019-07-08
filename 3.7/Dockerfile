@@ -1,5 +1,5 @@
 FROM pymor/base:3.7
-MAINTAINER René Milk <rene.milk@wwu.de>
+MAINTAINER René Fritze <rene.milk@wwu.de>
 
 VOLUME /src
 WORKDIR /src
