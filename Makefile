@@ -14,7 +14,7 @@ base:
 
 $(PYTHONS):
 	$(MAKE) $@_base
-	docker build --pull -t pymor/testing:$@ $@
+	docker build -t pymor/testing:$@ $@
 
 push:
 	$(MAKE) -C base push
