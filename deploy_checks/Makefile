@@ -1,4 +1,4 @@
-DISTROS = centos_7 debian_stretch debian_buster  debian_testing
+DISTROS = centos_7 debian_stretch debian_buster debian_bullseye
 NAMESPACE ?= pymor
 
 .PHONY: distros $(DISTROS) push
