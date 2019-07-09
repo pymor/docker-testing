@@ -53,10 +53,6 @@ before_cache:
 
 jobs:
   include:
-  - stage: pythons
-    env: PY=3.6
-  - stage: pythons
-    env: PY=3.7
   - stage: deploy_checks
     env: NONE
     script:
