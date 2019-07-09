@@ -37,7 +37,6 @@ RUN apt-get update && \
     git lfs install && \
     echo "alias ls='ls -h --color=auto'" >> /etc/bash.bashrc && \
     echo "alias ll='ls -lh'" >> /etc/bash.bashrc && \
-    apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=teletype \
@@ -54,6 +53,7 @@ RUN ln -s /usr/lib/python${PYVER}/site-packages/ngsolve \
     ln -s /usr/lib/python${PYVER}/site-packages/netgen \
           /usr/local/lib/python${PYVER}/site-packages/netgen && \
     apt update && apt install -y /root/ngsolve-*_amd64.deb && \
+    apt-get install -q -y --no-install-recommends libumfpack5 libmuparser2v5 libatlas3-base libnetcdf-c++4 libgsl23 &&\
     rm /root/ngsolve-*.deb && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
@@ -66,7 +66,7 @@ ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
     (${PIP_INSTALL} -r /tmp/pymor/requirements-optional.txt || echo optional failed) && \
     /bin/bash -l -c "(find /usr \( -name '*.a*' -o -name '*.so*' \) -type f | grep -v mess | grep -v freetype | grep -v _imaging | grep -v libtiff | xargs strip -p --strip-unneeded -d &> /dev/null ; du -sch .) || true " && \
     cd /tmp/pymor/ && \
-    python setup.py build_ext -i && \
+    pip install -e .[full] && \
      python -c "import pymor.core.config as cfg;import sys; sys.exit(not cfg.config.HAVE_FENICS)" && \
      python -c "from pymor.bindings.ngsolve import NGSolveVectorSpace" && \
      python -c "import ngsolve" && \
@@ -75,8 +75,8 @@ ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
      python -c "import pymor_dealii.pymor.demo" && \
      python -c "from PIL import Image, ImageDraw, ImageFont, _imagingft" && \
      python -c "import petsc4py" && \
+     pip uninstall -y pymor && \
      rm -rf /tmp/pymor
-#     rm -rf /tmp/pymor
 
 ADD entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
