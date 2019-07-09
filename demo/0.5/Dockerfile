@@ -3,7 +3,7 @@ MAINTAINER René Fritze <rene.fritze@wwu.de>
 
 USER root
 RUN apt-get update && \
-    apt-get install libglvnd0  xvfb libgl1-mesa-dri libglu1-mesa  \
+    apt-get install -y libglvnd0  xvfb libgl1-mesa-dri libglu1-mesa  \
       # for pymor-dealII compile
       libgsl-dev \
       liblapack-dev \
