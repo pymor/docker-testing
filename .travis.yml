@@ -9,6 +9,7 @@ before_script:
         docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
     fi
   - cd ${TRAVIS_BUILD_DIR}
+  - pip install docker-squash
 
 script:
   - travis_wait 50 make ${PY}_base
