@@ -2,7 +2,7 @@ PYTHONS = 3.6 3.7
 BASE := $(foreach t,$(PYTHONS),$(addsuffix $t,base))
 NAMESPACE ?= pymor
 
-.PHONY: pythons $(PYTHONS) base push deploy_checks
+.PHONY: pythons $(PYTHONS) base push deploy_checks devpi
 
 pythons: $(PYTHONS)
 
@@ -21,6 +21,7 @@ push:
 	$(MAKE) -C base push
 	docker push pymor/testing
 	docker push pymor/demo || echo pushing demo failed
+	docker push pymor/devpi || echo pushing demo failed
 
 demo: 3.7
 	$(MAKE) -C demo
@@ -31,4 +32,8 @@ packaging:
 deploy_checks:
 	$(MAKE) -C deploy_checks
 
-all: pythons
+devpi:
+	docker build -t pymor/devpi:latest devpi
+	# docker-squash -h &> /dev/null && docker-squash pymor/devpi:latest
+
+all: pythons devpi
