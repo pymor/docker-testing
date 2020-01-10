@@ -6,7 +6,7 @@ NAMESPACE ?= pymor
 distros: $(DISTROS)
 
 $(DISTROS):
-	cd $@ && docker build -t $(NAMESPACE)/deploy_checks:$@ .
+	cd $@ && docker build -t $(NAMESPACE)/deploy_checks:devpi_$@ .
 
 push:
 	docker push $(NAMESPACE)/deploy_checks
