@@ -1,7 +1,6 @@
 ARG PYVER
 
 FROM pymor/fenics:py${PYVER} as fenicslayer
-FROM pymor/pyqt5:py${PYVER} as pyqt5layer
 FROM pymor/ngsolve:py${PYVER}_v6.2.1905 as ngsolve
 FROM pymor/dealii:v9.0.1_py${PYVER} as dealii
 FROM pymor/python:${PYVER}
@@ -37,13 +36,13 @@ RUN apt-get update && \
     git lfs install && \
     echo "alias ls='ls -h --color=auto'" >> /etc/bash.bashrc && \
     echo "alias ll='ls -lh'" >> /etc/bash.bashrc && \
+    update-ca-certificates && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=teletype \
     SLEPC_DIR=/usr/local/slepc-32 \
     PETSC_DIR=/usr/local/petsc-32
 
-COPY --from=pyqt5layer /usr/local/ /usr/local/
 COPY --from=fenicslayer /usr/local/ /usr/local/
 COPY --from=dealii /usr/local/ /usr/local/
 COPY --from=ngsolve /root/ngsolve*deb /root
@@ -59,7 +58,7 @@ RUN ln -s /usr/lib/python${PYVER}/site-packages/ngsolve \
     rm -rf /var/lib/apt/lists/* && \
     python -c "import ngsolve"
 
-ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
+ONBUILD RUN git clone --branch=manylinux2014_wheels https://github.com/pymor/pymor /tmp/pymor && \
     ${PIP_INSTALL} -U pip pytest-pycharm && \
     ${PIP_INSTALL} -r /tmp/pymor/requirements.txt && \
     ${PIP_INSTALL} -r /tmp/pymor/requirements-ci.txt && \

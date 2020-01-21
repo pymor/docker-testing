@@ -1,4 +1,4 @@
-FROM pymor/base:3.5
+FROM pymor/base:3.8
 MAINTAINER René Fritze <rene.fritze@wwu.de>
 
 VOLUME /src
