@@ -58,7 +58,7 @@ RUN ln -s /usr/lib/python${PYVER}/site-packages/ngsolve \
     rm -rf /var/lib/apt/lists/* && \
     python -c "import ngsolve"
 
-ONBUILD RUN git clone --branch=manylinux2014_wheels https://github.com/pymor/pymor /tmp/pymor && \
+ONBUILD RUN git clone https://github.com/pymor/pymor /tmp/pymor && \
     ${PIP_INSTALL} -U pip pytest-pycharm && \
     ${PIP_INSTALL} -r /tmp/pymor/requirements.txt && \
     ${PIP_INSTALL} -r /tmp/pymor/requirements-ci.txt && \
